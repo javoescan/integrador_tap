@@ -1,4 +1,4 @@
-# integrador_tap
+# Trabajo Integrador
 Proyecto Integrador Técnicas Avanzadas de Programación
 
 <br>
