@@ -6,3 +6,4 @@ Proyecto Integrador Técnicas Avanzadas de Programación
 #### Links útiles
 * [Endpoints](./docs/endpoints.md)
 * [Arquitectura](./docs/architecture.png)
+* [Set up](./docs/set_up.md)
