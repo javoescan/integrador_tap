@@ -29,6 +29,8 @@ services:
       - 8082:8082
     expose:
       - 8082
+    links:
+      - mysql
     volumes:
       - ../microservices/sales-manager:/app
     command: npm run start:dev
@@ -43,6 +45,8 @@ services:
       - 8083:8083
     expose:
       - 8083
+    links:
+      - mysql
     volumes:
       - ../microservices/users-manager:/app
     command: npm run start:dev
@@ -56,6 +60,26 @@ services:
       - 8084:8084
     expose:
       - 8084
+    links:
+      - mysql
     volumes:
       - ../microservices/products-manager:/app
     command: npm run start:dev
+  
+  mysql:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
