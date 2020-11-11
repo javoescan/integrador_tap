@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { UserModel } from './user.model';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { UserDto } from './user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -7,12 +7,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getAll(): Promise<UserModel[]> {
+  getAll(): Promise<UserDto[]> {
     return this.usersService.getAll();
   }
 
   @Get(':id')
-  get(@Param('id') id: string): Promise<UserModel> {
+  get(@Param('id') id: string): Promise<UserDto> {
     return this.usersService.get(id);
   }
 
@@ -22,38 +22,14 @@ export class UsersController {
   }
 
   @Post()
-  create(
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('firstName') firstName: string,
-    @Body('lastName') lastName: string,
-    @Body('document') document: string,
-    @Body('role') role: string,
-  ): Promise<UserModel> {
-    try {
-      const user = new UserModel(email, password, firstName, lastName, document, role);
-      return this.usersService.create(user);
-    } catch (e) {
-      throw new HttpException(e, HttpStatus.BAD_REQUEST);
-    }
+  create(@Body() userDto: UserDto): Promise<UserDto> {
+    return this.usersService.create(userDto);
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('firstName') firstName: string,
-    @Body('lastName') lastName: string,
-    @Body('document') document: string,
-    @Body('role') role: string
-  ): Promise<UserModel> {
-    try {
-      const user = new UserModel(email, password, firstName, lastName, document, role, id);
-      return this.usersService.create(user);
-    } catch (e) {
-      throw new HttpException(e, HttpStatus.BAD_REQUEST);
-    }
+  update(@Param('id') id: string, @Body() userDto: UserDto): Promise<UserDto> {
+    userDto.id = id;
+    return this.usersService.update(userDto);
   }
 
   @Delete(':id')

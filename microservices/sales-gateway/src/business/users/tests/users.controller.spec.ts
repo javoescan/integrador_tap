@@ -21,8 +21,7 @@ describe('UsersController', () => {
 
 	describe('get', () => {
 		it('should return the user', async () => {
-			const id = 'test';
-			expect(await usersController.get(id)).toEqual(userMock);
+			expect(await usersController.get(userMock.id)).toEqual(userMock);
 		});
 	});
 });

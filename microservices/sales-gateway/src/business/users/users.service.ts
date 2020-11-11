@@ -1,6 +1,6 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserModel } from './user.model';
+import { UserDto } from './user.dto';
 
 @Injectable()
 export class UsersService {
@@ -10,36 +10,37 @@ export class UsersService {
     this.baseApiUrl = this.configService.get<string>('USERS_MANAGER_API');
   }
 
-  async getAll(): Promise<UserModel[]> {
-    const response = await this.httpService.get(this.baseApiUrl).toPromise();
-    return response.data;
+  async getAll(): Promise<UserDto[]> {
+    return this.executeCall('get', '');
   }
 
-  async get(id: string): Promise<UserModel> {
-    const apiUrl = `${this.baseApiUrl}${id}`;
-    const response = await this.httpService.get(apiUrl).toPromise();
-    return response.data;
+  async get(id: string): Promise<UserDto> {
+    return this.executeCall('get', id);
   }
 
   async login(email: string, password: string): Promise<string> {
-    const apiUrl = `${this.baseApiUrl}login`;
-    const response = await this.httpService.post(apiUrl, { email, password }).toPromise();
-    return response.data;
+    return this.executeCall('post', 'login', { email, password });
   }
 
-  async create(user: UserModel): Promise<UserModel> {
-    const response = await this.httpService.post(this.baseApiUrl, { user }).toPromise();
-    return response.data;
+  async create(user: UserDto): Promise<UserDto> {
+    return this.executeCall('post', '', { user });
   }
   
-  async update(user: UserModel): Promise<UserModel> {
-    const response = await this.httpService.put(this.baseApiUrl, { user }).toPromise();
-    return response.data;
+  async update(user: UserDto): Promise<UserDto> {
+    return this.executeCall('put', user.id, { user });
   }
 
   async delete(id: string): Promise<string> {
-    const apiUrl = `${this.baseApiUrl}${id}`;
-    const response = await this.httpService.delete(apiUrl).toPromise();
-    return response.data;
+    return this.executeCall('delete', id);
+  }
+
+  private async executeCall(method: string, endpoint: string, body?: object): Promise<any> {
+    const apiUrl = `${this.baseApiUrl}${endpoint}`;
+    try {
+      const response = await this.httpService[method](apiUrl, body).toPromise();
+      return response.data;
+    } catch (e) {
+      throw new HttpException(e.response.data.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

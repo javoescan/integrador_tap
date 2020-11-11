@@ -10,7 +10,10 @@ export class UsersService {
   constructor(@InjectRepository(User) private usersRepository: Repository<User>, private authService: AuthService) {}
 
   async login(email: string, password: string): Promise<string> {
-    const existingUser = await this.usersRepository.findOne({ email });
+    const existingUser = await this.usersRepository.createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('email = :email', { email })
+      .getOne();
     if (!existingUser) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
@@ -19,5 +22,45 @@ export class UsersService {
 			throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
 		}
     return this.authService.generateJwt(existingUser.id, existingUser.email, existingUser.role);
+  }
+
+  async getAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  async get(id: string): Promise<User> {
+    return this.usersRepository.findOne({ id });
+  }
+
+  async create(user: User): Promise<User> {
+    const existingUser = await this.usersRepository.findOne({ email: user.email });
+    if (existingUser) {
+			throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+    }
+    const entity = new User();
+    entity.email = user.email;
+    entity.password = user.password;
+    entity.firstName = user.firstName;
+    entity.lastName = user.lastName;
+    entity.role = user.role;
+    entity.document = user.document;
+    return this.usersRepository.save(entity);
+  }
+  
+  async update(user: User): Promise<User> {
+    const existingUser = await this.get(user.id);
+    if (!existingUser) {
+			throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+    const updatedUser = {
+      ...existingUser,
+      ...user,
+    };
+    return this.usersRepository.save(updatedUser);
+  }
+
+  async delete(id: string): Promise<string> {
+    await this.usersRepository.softDelete({ id });
+    return id;
   }
 }

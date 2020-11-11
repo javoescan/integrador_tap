@@ -1,10 +1,11 @@
-import { UserModel } from "../user.model";
+import { UserDto } from '../user.dto';
 
-export default new UserModel (
-  'test@test.com',
-  'test',
-  'test',
-  'test',
-  'test',
-  '1',
-);
+const userDtoMock = new UserDto();
+userDtoMock.id = 'test_id';
+userDtoMock.email = 'test_email';
+userDtoMock.firstName = 'test_firstName';
+userDtoMock.lastName = 'test_lastName';
+userDtoMock.document = 'test_document';
+userDtoMock.role = 'test_role';
+
+export default userDtoMock;
