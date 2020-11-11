@@ -8,4 +8,9 @@ userDtoMock.lastName = 'test_lastName';
 userDtoMock.document = 'test_document';
 userDtoMock.role = 'test_role';
 
-export default userDtoMock;
+const userJwtMock = 'test_jwt';
+
+export {
+  userDtoMock,
+  userJwtMock,
+};
