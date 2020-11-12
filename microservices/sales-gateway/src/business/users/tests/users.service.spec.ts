@@ -53,9 +53,7 @@ describe('UsersService', () => {
 		it('should return the deleted user id', async () => {
 			expect(await usersService.delete(userDtoMock.id)).toEqual(userDtoMock.id);
 		});
-  });
-  
-  describe('delete', () => {
+
 		it('should throw an exception', async () => {
       jest.spyOn(usersService['httpService'], 'delete').mockImplementationOnce(() => {
         throw new HttpException({ data: { message: 'error' } }, HttpStatus.BAD_REQUEST);
