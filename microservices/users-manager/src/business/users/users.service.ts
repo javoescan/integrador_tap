@@ -17,7 +17,7 @@ export class UsersService {
     if (!existingUser) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
-		const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 		if (!isPasswordValid) {
 			throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
 		}
