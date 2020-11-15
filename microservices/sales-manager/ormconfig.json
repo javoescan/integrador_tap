@@ -4,7 +4,7 @@
   "port": "3306",
   "username": "root",
   "password": "root",
-  "database": "users-manager",
+  "database": "sales-manager",
   "synchronize": false,
   "dropSchema": false,
   "logging": true,
