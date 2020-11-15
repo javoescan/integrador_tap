@@ -4,7 +4,7 @@ Incluye una API REST para la administración de ventas, productos y usuarios.
 
 <br>
 
-#### Links útiles
+### Contenido
 * [Endpoints](./docs/endpoints.md)
 * [Arquitectura](./docs/architecture.png)
 * [Microservicios](./docs/microservices.md)
