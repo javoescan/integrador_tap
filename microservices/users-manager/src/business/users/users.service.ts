@@ -52,15 +52,16 @@ export class UsersService {
   }
   
   async update(user: User): Promise<User> {
-    const existingUser = await this.get(user.id);
-    if (!existingUser) {
-			throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    try {
+      const existingUser = await this.get(user.id);
+      const updatedUser = {
+        ...existingUser,
+        ...user,
+      };
+      return this.usersRepository.save(updatedUser);
+    } catch (e) {
+      throw new HttpException(e.message, e.status);
     }
-    const updatedUser = {
-      ...existingUser,
-      ...user,
-    };
-    return this.usersRepository.save(updatedUser);
   }
 
   async delete(id: string): Promise<string> {

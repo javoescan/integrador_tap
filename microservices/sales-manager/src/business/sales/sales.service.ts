@@ -19,7 +19,7 @@ export class SalesService {
     return sale;
   }
 
-  async create(user: Sale): Promise<Sale> {
+  async create(sale: Sale): Promise<Sale> {
     const entity = new Sale();
     return this.salesRepository.save(entity);
   }
@@ -33,7 +33,7 @@ export class SalesService {
       };
       return this.salesRepository.save(updatedSale);
     } catch (e) {
-      throw new HttpException(e.message, e.status || HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, e.status);
     }
   }
 
