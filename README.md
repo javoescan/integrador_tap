@@ -10,5 +10,4 @@ Incluye una API REST para la administración de ventas, productos y usuarios.
 * [Microservicios](./docs/microservices.md)
 * [Esquema DB](./docs/db.png)
 * [Set up](./docs/set_up.md)
-* [Pruebas Postman](./postman)
 * [Primera Entrega](./docs/tp.pdf)
