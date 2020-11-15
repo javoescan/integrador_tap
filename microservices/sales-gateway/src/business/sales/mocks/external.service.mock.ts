@@ -15,6 +15,8 @@ export class ExternalServiceMock {
       case HttpMethods.GET:
         if (apiUrl.includes(saleDtoMock.id)) {
           return saleDtoMock;
+        } else if (apiUrl.includes('comissions')) {
+          return saleDtoMock.total;
         } else {
           return [saleDtoMock];
         }

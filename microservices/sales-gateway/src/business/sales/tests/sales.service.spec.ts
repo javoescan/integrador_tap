@@ -32,6 +32,24 @@ describe('SalesService', () => {
 		});
 	});
 
+	describe('getByProduct', () => {
+		it('should return the sales collection', async () => {
+			expect(await salesService.getByProduct(saleDtoMock.userId, '', '')).toEqual([saleDtoMock]);
+		});
+	});
+
+	describe('getByUser', () => {
+		it('should return the sales collection', async () => {
+			expect(await salesService.getByUser(saleDtoMock.userId, '', '')).toEqual([saleDtoMock]);
+		});
+	});
+
+	describe('getUserComissions', () => {
+		it('should return the user comissions', async () => {
+			expect(await salesService.getUserComissions(saleDtoMock.userId, '', '')).toEqual(saleDtoMock.total);
+		});
+	});
+
 	describe('create', () => {
 		it('should return the created sale', async () => {
 			expect(await salesService.create(saleDtoMock)).toEqual(saleDtoMock);
