@@ -71,7 +71,19 @@ describe('SalesService', () => {
 
 	describe('getUserComissions', () => {
 		it('should return the user comissions', async () => {
-			expect(await salesService.getUserComissions(saleMock.userId, '', '')).toEqual(0);
+			expect(await salesService.getUserComissions(saleMock.userId, '', '')).toEqual(saleMock.total * 0.04);
+		});
+		it('should return the user comissions with more than 10 sales', async () => {
+			const sales = [saleMock, saleMock, saleMock, saleMock, saleMock, saleMock, saleMock, saleMock, saleMock, saleMock, saleMock];
+			jest.spyOn(salesService, 'getByUser').mockImplementationOnce(() => Promise.resolve(sales));
+      const totalSold = sales.reduce((acc, sale) => acc + sale.total, 0);
+			expect(await salesService.getUserComissions(saleMock.userId, '', '')).toEqual(totalSold * 0.07);
+		});
+		it('should throw an exception because the user does not exist', async () => {
+			jest.spyOn(salesService['externalService'], 'call').mockImplementationOnce(() => {
+				throw new HttpException({ data: { message: 'error' } }, HttpStatus.BAD_REQUEST);
+			});
+			expect(async() => await salesService.getUserComissions(saleMock.userId, '', '')).rejects.toThrowError(HttpException);
 		});
 	});
 

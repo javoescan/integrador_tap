@@ -66,7 +66,17 @@ export class SalesService {
   }
 
   async getUserComissions(userId: string, fromDate: string, toDate: string): Promise<number> {
-    return 0;
+    try {
+      const userSales = await this.getByUser(userId, fromDate, toDate);
+      const totalSold = userSales.reduce((acc, sale) => acc + sale.total, 0);
+      if (userSales.length > 10) {
+        return totalSold * 0.07;
+      } else {
+        return totalSold * 0.04;
+      }
+    } catch (e) {
+      throw new HttpException(e.message, e.status);
+    }
   }
 
   async create(sale: Sale): Promise<Sale> {
