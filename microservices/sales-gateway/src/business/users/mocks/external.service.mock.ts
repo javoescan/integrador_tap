@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { userDtoMock, userJwtMock } from 'business/users/mocks/user.mocks';
-import { HttpMethods } from '../external.enums';
+import { HttpMethods } from 'business/external/external.enums';
 
 @Injectable()
 export class ExternalServiceMock {

@@ -1,7 +1,7 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExternalService } from 'business/external/external.service';
-import { ExternalServiceMock } from 'business/external/mocks/external.service.mock';
+import { ExternalServiceMock } from '../mocks/external.service.mock';
 import { userDtoMock, userJwtMock } from '../mocks/user.mocks';
 import { UsersService } from '../users.service';
 
