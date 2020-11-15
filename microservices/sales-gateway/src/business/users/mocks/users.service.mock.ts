@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from '../user.dto';
+import { UserDto } from '../dtos/user.dto';
 import { userDtoMock, userJwtMock } from './user.mocks';
 
 @Injectable()

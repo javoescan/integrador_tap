@@ -1,4 +1,4 @@
-import { UserDto } from '../user.dto';
+import { UserDto } from '../dtos/user.dto';
 
 const userDtoMock = new UserDto();
 userDtoMock.id = 'test_id';

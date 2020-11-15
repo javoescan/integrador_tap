@@ -1,8 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'business/auth/admin.auth.guard';
-import { UserDto } from './user.dto';
+import { UserLoginDto } from './dtos/login.dto';
+import { UserDto } from './dtos/user.dto';
 import { UsersService } from './users.service';
 
+@ApiTags('users')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -19,8 +23,8 @@ export class UsersController {
   }
 
   @Post('login')
-  login(@Body('email') email: string, @Body('password') password: string): Promise<string> {
-    return this.usersService.login(email, password);
+  login(@Body() user: UserLoginDto): Promise<string> {
+    return this.usersService.login(user.email, user.password);
   }
 
   @UseGuards(AdminAuthGuard)

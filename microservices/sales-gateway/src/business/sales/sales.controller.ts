@@ -1,8 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'business/auth/admin.auth.guard';
 import { SaleDto } from './sale.dto';
 import { SalesService } from './sales.service';
 
+@ApiTags('sales')
+@ApiBearerAuth()
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}

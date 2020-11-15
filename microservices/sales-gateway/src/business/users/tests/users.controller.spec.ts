@@ -33,7 +33,7 @@ describe('UsersController', () => {
 
 	describe('login', () => {
 		it('should return the mocked jwt', async () => {
-			expect(await usersController.login(userDtoMock.email, userDtoMock.password)).toEqual(userJwtMock);
+			expect(await usersController.login(userDtoMock)).toEqual(userJwtMock);
 		});
 	});
 

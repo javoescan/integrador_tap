@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { ExternalService } from 'business/external/external.service';
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './user.dto';
+import { UserDto } from './dtos/user.dto';
 import { HttpMethods } from 'business/external/external.enums';
 
 @Injectable()
