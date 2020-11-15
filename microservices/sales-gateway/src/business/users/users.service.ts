@@ -1,46 +1,38 @@
-import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ExternalService } from 'business/external/external.service';
+import { Injectable } from '@nestjs/common';
 import { UserDto } from './user.dto';
+import { HttpMethods } from 'business/external/external.enums';
 
 @Injectable()
 export class UsersService {
   private baseApiUrl: string;
 
-  constructor(private httpService: HttpService, private configService: ConfigService) {
+  constructor(private externalService: ExternalService, private configService: ConfigService) {
     this.baseApiUrl = this.configService.get<string>('USERS_MANAGER_API');
   }
 
   async getAll(): Promise<UserDto[]> {
-    return this.executeCall('get', '');
+    return this.externalService.call(HttpMethods.GET, this.baseApiUrl);
   }
 
   async get(id: string): Promise<UserDto> {
-    return this.executeCall('get', id);
+    return this.externalService.call(HttpMethods.GET, `${this.baseApiUrl}${id}`);
   }
 
   async login(email: string, password: string): Promise<string> {
-    return this.executeCall('post', 'login', { email, password });
+    return this.externalService.call(HttpMethods.POST, `${this.baseApiUrl}login`, { email, password });
   }
 
   async create(user: UserDto): Promise<UserDto> {
-    return this.executeCall('post', '', { user });
+    return this.externalService.call(HttpMethods.POST, this.baseApiUrl, { user });
   }
   
   async update(user: UserDto): Promise<UserDto> {
-    return this.executeCall('put', user.id, { user });
+    return this.externalService.call(HttpMethods.PUT, `${this.baseApiUrl}${user.id}`, { user });
   }
 
   async delete(id: string): Promise<string> {
-    return this.executeCall('delete', id);
-  }
-
-  private async executeCall(method: string, endpoint: string, body?: object): Promise<any> {
-    const apiUrl = `${this.baseApiUrl}${endpoint}`;
-    try {
-      const response = await this.httpService[method](apiUrl, body).toPromise();
-      return response.data;
-    } catch (e) {
-      throw new HttpException(e.response.data.message, HttpStatus.BAD_REQUEST);
-    }
+    return this.externalService.call(HttpMethods.DELETE, `${this.baseApiUrl}${id}`);
   }
 }

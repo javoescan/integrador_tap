@@ -1,7 +1,7 @@
-import { HttpException, HttpService, HttpStatus } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpServiceMock } from '../mocks/http.service.mock';
+import { ExternalService } from 'business/external/external.service';
+import { ExternalServiceMock } from 'business/external/mocks/external.service.mock';
 import { userDtoMock, userJwtMock } from '../mocks/user.mocks';
 import { UsersService } from '../users.service';
 
@@ -10,10 +10,11 @@ describe('UsersService', () => {
 
 	beforeEach(async () => {
 		const app: TestingModule = await Test.createTestingModule({
-			providers: [UsersService, HttpService, ConfigService],
+			imports: [ConfigModule.forRoot()],
+			providers: [UsersService, ExternalService],
 		})
-			.overrideProvider(HttpService)
-			.useClass(HttpServiceMock)
+			.overrideProvider(ExternalService)
+			.useClass(ExternalServiceMock)
 			.compile();
 
       usersService = app.get<UsersService>(UsersService);
@@ -52,13 +53,6 @@ describe('UsersService', () => {
 	describe('delete', () => {
 		it('should return the deleted user id', async () => {
 			expect(await usersService.delete(userDtoMock.id)).toEqual(userDtoMock.id);
-		});
-
-		it('should throw an exception', async () => {
-      jest.spyOn(usersService['httpService'], 'delete').mockImplementationOnce(() => {
-        throw new HttpException({ data: { message: 'error' } }, HttpStatus.BAD_REQUEST);
-      });
-			expect(async() => await usersService.delete(userDtoMock.id)).rejects.toThrowError(HttpException);
 		});
 	});
 });
