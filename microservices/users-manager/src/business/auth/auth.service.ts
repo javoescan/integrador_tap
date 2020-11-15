@@ -7,6 +7,6 @@ export class AuthService {
 	constructor(private jwtService: JwtService) {}
 
 	async generateJwt(id: string, email: string, role: UserRoles): Promise<any> {
-		return this.jwtService.sign({ id, email, role });
+		return this.jwtService.sign({ user: { id, email, role } });
 	}
 }
