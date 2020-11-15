@@ -1,5 +1,6 @@
 # Trabajo Integrador
-Proyecto Integrador Técnicas Avanzadas de Programación
+Trabajo Práctico Integrador realizado para la materia "Técnicas Avanzadas en Programación" de la Universidad de Palermo durante el Segundo Cuatrimestre del 2020.
+Incluye una API REST para la administración de ventas, productos y usuarios.
 
 <br>
 
