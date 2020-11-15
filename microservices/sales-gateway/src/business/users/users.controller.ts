@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'business/auth/admin.auth.guard';
+import { BasicAuthGuard } from 'business/auth/basic.auth.guard';
 import { UserLoginDto } from './dtos/login.dto';
 import { UserDto } from './dtos/user.dto';
 import { UsersService } from './users.service';
@@ -11,6 +12,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   
+  @UseGuards(BasicAuthGuard)
   @Get()
   getAll(): Promise<UserDto[]> {
     return this.usersService.getAll();

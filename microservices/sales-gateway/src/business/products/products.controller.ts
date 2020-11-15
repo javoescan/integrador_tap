@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'business/auth/admin.auth.guard';
+import { BasicAuthGuard } from 'business/auth/basic.auth.guard';
 import { ProductDto } from './product.dto';
 import { ProductsService } from './products.service';
 
@@ -9,13 +10,14 @@ import { ProductsService } from './products.service';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-  
+
+  @UseGuards(BasicAuthGuard)
   @Get()
   getAll(): Promise<ProductDto[]> {
     return this.productsService.getAll();
   }
 
-  @UseGuards(AdminAuthGuard)
+  @UseGuards(BasicAuthGuard)
   @Get(':id')
   get(@Param('id') id: string): Promise<ProductDto> {
     return this.productsService.get(id);
