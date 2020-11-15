@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SaleDto } from '../sale.dto';
+import { SaleDto } from '../dtos/sale.dto';
 import { saleDtoMock } from './sales.mocks';
 
 @Injectable()

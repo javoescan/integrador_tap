@@ -1,11 +1,24 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { HttpMethods } from 'business/external/external.enums';
+import { ExternalService } from 'business/external/external.service';
+import { Between, Repository } from 'typeorm';
 import { Sale } from './sales.entity';
 
 @Injectable()
 export class SalesService {
-  constructor(@InjectRepository(Sale) private salesRepository: Repository<Sale>) {}
+  private usersManagerApi: string;
+  private productsManagerApi: string;
+  
+  constructor(
+    @InjectRepository(Sale) private salesRepository: Repository<Sale>,
+    private externalService: ExternalService,
+    private configService: ConfigService,
+  ) {
+    this.usersManagerApi = this.configService.get<string>('USERS_MANAGER_API');
+    this.productsManagerApi = this.configService.get<string>('PRODUCTS_MANAGER_API');
+  }
 
   async getAll(): Promise<Sale[]> {
     return this.salesRepository.find();
@@ -19,8 +32,49 @@ export class SalesService {
     return sale;
   }
 
+  async getByUser(userId: string, fromDate: string, toDate: string): Promise<Sale[]> {
+    try {
+      await this.externalService.call(HttpMethods.GET, `${this.usersManagerApi}${userId}`);
+      if (fromDate && toDate) {
+        return this.salesRepository.find({
+          where: {
+            userId,
+            date: Between(new Date(fromDate), new Date(toDate))
+          }
+        });
+      }
+      return this.salesRepository.find({ userId });
+    } catch (e) {
+      throw new HttpException(e.message, e.status);
+    }
+  }
+
+  async getByProduct(productId: string, fromDate: string, toDate: string): Promise<Sale[]> {
+    try {
+      await this.externalService.call(HttpMethods.GET, `${this.productsManagerApi}${productId}`);
+      let query = this.salesRepository
+        .createQueryBuilder('sale')
+        .innerJoinAndSelect('sale.products', 'product')
+        .where('product.id = :id', { id: productId });
+      if (fromDate && toDate) {
+        query = query.where('sale.date > :fromDate AND sale.date < :toDate', { fromDate: new Date(fromDate), toDate: new Date(toDate) });
+      }
+      return query.getMany();
+    } catch (e) {
+      throw new HttpException(e.message, e.status);
+    }
+  }
+
+  async getComissionsFromUser(userId: string, fromDate: string, toDate: string): Promise<number> {
+    return 0;
+  }
+
   async create(sale: Sale): Promise<Sale> {
     const entity = new Sale();
+    entity.userId = sale.userId;
+    entity.total = sale.total;
+    entity.date = sale.date;
+    entity.products = sale.products;
     return this.salesRepository.save(entity);
   }
   

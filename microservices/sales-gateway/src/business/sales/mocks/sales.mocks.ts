@@ -1,4 +1,4 @@
-import { SaleDto } from '../sale.dto';
+import { SaleDto } from '../dtos/sale.dto';
 
 const saleDtoMock = new SaleDto();
 saleDtoMock.id = 'test_id';

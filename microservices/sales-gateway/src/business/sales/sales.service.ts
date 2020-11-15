@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { ExternalService } from 'business/external/external.service';
 import { Injectable } from '@nestjs/common';
-import { SaleDto } from './sale.dto';
+import { SaleDto } from './dtos/sale.dto';
 import { HttpMethods } from 'business/external/external.enums';
 
 @Injectable()
@@ -18,6 +18,21 @@ export class SalesService {
 
   async get(id: string): Promise<SaleDto> {
     return this.externalService.call(HttpMethods.GET, `${this.baseApiUrl}${id}`);
+  }
+
+  async getByProduct(productId: string, fromDate: string, toDate: string): Promise<SaleDto[]> {
+    const url = `${this.baseApiUrl}product/${productId}?from_date="${fromDate}"&to_date="${toDate}"`;
+    return this.externalService.call(HttpMethods.GET, url);
+  }
+
+  async getByUser(userId: string, fromDate: string, toDate: string): Promise<SaleDto[]> {
+    const url = `${this.baseApiUrl}user/${userId}?from_date="${fromDate}"&to_date="${toDate}"`;
+    return this.externalService.call(HttpMethods.GET, url);
+  }
+
+  async getUserComissions(userId: string, fromDate: string, toDate: string): Promise<SaleDto[]> {
+    const url = `${this.baseApiUrl}user/${userId}/comissions?from_date="${fromDate}"&to_date="${toDate}"`;
+    return this.externalService.call(HttpMethods.GET, url);
   }
 
   async create(sale: SaleDto): Promise<SaleDto> {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { Sale } from './sales.entity';
 import { SalesService } from './sales.service';
 
@@ -14,6 +14,33 @@ export class SalesController {
   @Get(':id')
   get(@Param('id') id: string): Promise<Sale> {
     return this.salesService.get(id);
+  }
+
+  @Get('user/:id')
+  getByUser(
+    @Param('id') id: string,
+    @Query('from_date') fromDate: string,
+    @Query('to_date') toDate: string,
+  ): Promise<Sale[]> {
+    return this.salesService.getByUser(id, fromDate, toDate);
+  }
+
+  @Get('user/:id/comissions')
+  getUserComissions(
+    @Param('id') id: string,
+    @Query('from_date') fromDate: string,
+    @Query('to_date') toDate: string,
+  ): Promise<number> {
+    return this.salesService.getComissionsFromUser(id, fromDate, toDate);
+  }
+
+  @Get('product/:id')
+  getByProduct(
+    @Param('id') id: string,
+    @Query('from_date') fromDate: string,
+    @Query('to_date') toDate: string,
+  ): Promise<Sale[]> {
+    return this.salesService.getByProduct(id, fromDate, toDate);
   }
 
   @Post()

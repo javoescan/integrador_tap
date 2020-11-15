@@ -17,7 +17,7 @@ export class Sale {
 	date: Date;
 
 	// Jest does not support testing decorators
-	@OneToMany( /* istanbul ignore next */ () => SaleProduct, /* istanbul ignore next */ saleProduct => saleProduct.sale)
+	@OneToMany( /* istanbul ignore next */ () => SaleProduct, /* istanbul ignore next */ saleProduct => saleProduct.sale, { cascade: true })
   products: SaleProduct[];
 
 	@CreateDateColumn({ type: 'timestamp', name: 'created_at' })

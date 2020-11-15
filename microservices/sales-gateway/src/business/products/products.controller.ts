@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'business/auth/admin.auth.guard';
 import { BasicAuthGuard } from 'business/auth/basic.auth.guard';
-import { ProductDto } from './product.dto';
+import { ProductDto } from './dtos/product.dto';
 import { ProductsService } from './products.service';
 
 @ApiTags('products')
