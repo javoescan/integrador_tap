@@ -4,30 +4,35 @@ services:
   sales-gateway:
     image: 'docker.io/bitnami/node:14-debian-10'
     container_name: sales-gateway
+    command: npm run start:dev
     environment:
       - SERVER_PORT=8081
     ports:
       - 8081:8081
     volumes:
       - ../microservices/sales-gateway:/app
-    command: npm run start:dev
     links:
       - users-manager
+      - sales-manager
+      - products-manager
 
   sales-manager:
     image: 'docker.io/bitnami/node:14-debian-10'
     container_name: sales-manager
+    command: npm run start:dev
     environment:
       - SERVER_PORT=8082
     links:
       - mysql
+      - users-manager
+      - products-manager
     volumes:
       - ../microservices/sales-manager:/app
-    command: npm run start:dev
   
   users-manager:
     image: 'docker.io/bitnami/node:14-debian-10'
     container_name: users-manager
+    command: npm run start:dev
     environment:
       - SERVER_PORT=8083
       - DB_PASSWORD=root
@@ -35,18 +40,17 @@ services:
       - mysql
     volumes:
       - ../microservices/users-manager:/app
-    command: npm run start:dev
   
   products-manager:
     image: 'docker.io/bitnami/node:14-debian-10'
     container_name: products-manager
+    command: npm run start:dev
     environment:
       - SERVER_PORT=8084
     links:
       - mysql
     volumes:
       - ../microservices/products-manager:/app
-    command: npm run start:dev
   
   mysql:
     image: mysql
