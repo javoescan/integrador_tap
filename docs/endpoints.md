@@ -8,8 +8,8 @@
 |GET|/sales/user/:id?from_date="2020-09-09"&to_date="2020-09-09"|N/A|
 |GET|/sales/product/:id?from_date="2020-09-09"&to_date="2020-09-09"|N/A|
 |GET|/sales?from_date="2020-09-09"&to_date="2020-09-09"|N/A|
-|POST|/sales|{ products: [{ id, price }], userId, date, totalPrice }|
-|PUT|/sales|{ id, products: [{ id, price }], userId, date, totalPrice }|
+|POST|/sales|{ products: [{ id, price, quantity }], userId, date, total }|
+|PUT|/sales|{ id, products: [{ id, price, quantity }], userId, date, totale }|
 |DELETE|/sales/:id|N/A|
 |GET|/products/:id|N/A|
 |POST|/products|{ name, description, price }|
