@@ -1,4 +1,5 @@
-import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { SaleProduct } from 'business/sale-products/sale-products.entity';
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 @Entity({ name: 'sales' })
@@ -14,6 +15,10 @@ export class Sale {
 
 	@Column({ type: 'timestamp' })
 	date: Date;
+
+	// Jest does not support testing decorators
+	@OneToMany( /* istanbul ignore next */ () => SaleProduct, /* istanbul ignore next */ saleProduct => saleProduct.sale)
+  products: SaleProduct[];
 
 	@CreateDateColumn({ type: 'timestamp', name: 'created_at' })
 	createdAt: Date;
