@@ -29,7 +29,11 @@ export class UsersService {
   }
 
   async get(id: string): Promise<User> {
-    return this.usersRepository.findOne({ id });
+    const user = await this.usersRepository.findOne({ id });
+    if (!user) {
+			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   async create(user: User): Promise<User> {
