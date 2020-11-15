@@ -31,7 +31,7 @@ export class SalesController {
     @Query('from_date') fromDate: string,
     @Query('to_date') toDate: string,
   ): Promise<number> {
-    return this.salesService.getComissionsFromUser(id, fromDate, toDate);
+    return this.salesService.getUserComissions(id, fromDate, toDate);
   }
 
   @Get('product/:id')

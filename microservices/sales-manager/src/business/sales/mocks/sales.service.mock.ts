@@ -12,6 +12,18 @@ export class SalesServiceMock {
 		return saleMock;
 	}
 
+	async getByUser(id: string): Promise<Sale[]> {
+		return [saleMock];
+	}
+
+	async getByProduct(id: string): Promise<Sale[]> {
+		return [saleMock];
+	}
+
+	async getUserComissions(id: string): Promise<number> {
+		return saleMock.total;
+	}
+
 	async create(sale: Sale): Promise<Sale> {
 		return saleMock;
 	}

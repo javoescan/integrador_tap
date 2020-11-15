@@ -4,6 +4,17 @@ import { saleMock } from './sales.mocks';
 
 @Injectable()
 export class SalesRepositoryMock {
+	createQueryBuilder = () => ({
+		innerJoinAndSelect: () => ({
+			where: () => ({
+				getMany: () => [saleMock],
+				where: () => ({
+					getMany: () => [saleMock],
+				})
+			})
+		})
+	})
+
 	async find(): Promise<Sale[]> {
 		return [saleMock];
 	}

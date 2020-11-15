@@ -31,6 +31,24 @@ describe('SalesController', () => {
 		});
 	});
 
+	describe('getByProduct', () => {
+		it('should return the sales collection', async () => {
+			expect(await salesController.getByProduct(saleMock.userId, '', '')).toEqual([saleMock]);
+		});
+	});
+
+	describe('getByUser', () => {
+		it('should return the sales collection', async () => {
+			expect(await salesController.getByUser(saleMock.userId, '', '')).toEqual([saleMock]);
+		});
+	});
+
+	describe('getUserComissions', () => {
+		it('should return the user comissions', async () => {
+			expect(await salesController.getUserComissions(saleMock.userId, '', '')).toEqual(saleMock.total);
+		});
+	});
+
 	describe('create', () => {
 		it('should return the created sale', async () => {
 			expect(await salesController.create(saleMock)).toEqual(saleMock);

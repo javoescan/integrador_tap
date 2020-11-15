@@ -65,7 +65,7 @@ export class SalesService {
     }
   }
 
-  async getComissionsFromUser(userId: string, fromDate: string, toDate: string): Promise<number> {
+  async getUserComissions(userId: string, fromDate: string, toDate: string): Promise<number> {
     return 0;
   }
 
