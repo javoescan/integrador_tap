@@ -83,12 +83,20 @@ export class SalesService {
   }
 
   async create(sale: Sale): Promise<Sale> {
-    const entity = new Sale();
-    entity.userId = sale.userId;
-    entity.total = sale.total;
-    entity.date = sale.date;
-    entity.products = sale.products;
-    return this.salesRepository.save(entity);
+    try {
+      await this.externalService.call(HttpMethods.GET, `${this.usersManagerApi}${sale.userId}`);
+      await Promise.all(sale.products.map(product => {
+        return this.externalService.call(HttpMethods.GET, `${this.productsManagerApi}${product.id}`);
+      }));
+      const entity = new Sale();
+      entity.userId = sale.userId;
+      entity.total = sale.total;
+      entity.date = sale.date;
+      entity.products = sale.products;
+      return this.salesRepository.save(entity);
+    } catch (e) {
+      throw new HttpException(e.message, e.status);
+    }
   }
   
   async update(sale: Sale): Promise<Sale> {
