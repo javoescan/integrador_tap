@@ -1,20 +1,6 @@
 version: "3.8"
 
 services:
-  traefik:
-    image: "traefik:v2.3"
-    container_name: "traefik"
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-
   sales-gateway:
     image: 'docker.io/bitnami/node:14-debian-10'
     container_name: sales-gateway
@@ -29,10 +15,6 @@ services:
       - users-manager
       - products-manager
       - sales-manager
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.sales.entrypoints=web"
-      - "traefik.frontend.rule=Path:/"
 
   sales-manager:
     image: 'docker.io/bitnami/node:14-debian-10'
