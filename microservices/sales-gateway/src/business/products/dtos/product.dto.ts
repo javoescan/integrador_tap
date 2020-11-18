@@ -18,5 +18,5 @@ export class ProductDto {
 
 	@IsInt()
 	@ApiProperty()
-	quantity: number;
+	stock: number;
 }

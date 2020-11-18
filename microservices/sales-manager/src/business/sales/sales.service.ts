@@ -86,7 +86,7 @@ export class SalesService {
     try {
       await this.externalService.call(HttpMethods.GET, `${this.usersManagerApi}${sale.userId}`);
       await Promise.all(sale.products.map(product => {
-        return this.externalService.call(HttpMethods.GET, `${this.productsManagerApi}${product.id}`);
+        return this.externalService.call(HttpMethods.GET, `${this.productsManagerApi}${product.productId}`);
       }));
       const entity = new Sale();
       entity.userId = sale.userId;

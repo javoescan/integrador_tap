@@ -19,8 +19,12 @@ export class ProductsService {
     return sale;
   }
 
-  async create(user: Product): Promise<Product> {
+  async create(product: Product): Promise<Product> {
     const entity = new Product();
+    entity.price = product.price;
+    entity.name = product.name;
+    entity.description = product.description;
+    entity.stock = product.stock;
     return this.productsRepository.save(entity);
   }
   

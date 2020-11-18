@@ -12,8 +12,8 @@
 |PUT|/sales|{ id, products: [{ id, price, quantity }], userId, date, totale }|
 |DELETE|/sales/:id|N/A|
 |GET|/products/:id|N/A|
-|POST|/products|{ name, description, price }|
-|PUT|/products|{ id, name, description, price }|
+|POST|/products|{ name, description, price, stock }|
+|PUT|/products|{ id, name, description, price, stock }|
 |DELETE|/products/:id|N/A|
 |GET|/sales/user/:id/comissions?from_date="2020-09-09"&to_date="2020-09-09"|N/A|
 
