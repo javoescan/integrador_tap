@@ -2,7 +2,12 @@
 Trabajo Práctico Integrador realizado para la materia "Técnicas Avanzadas en Programación" de la Universidad de Palermo durante el Segundo Cuatrimestre del 2020.
 Incluye una API REST para la administración de ventas, productos y usuarios.
 
-<br>
+<br/>
+
+## Amazon URL
+> ec2-18-206-88-121.compute-1.amazonaws.com
+
+<br/>
 
 ### Contenido
 * [Endpoints](./docs/endpoints.md)
