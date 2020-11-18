@@ -102,6 +102,10 @@ export class SalesService {
   async update(sale: Sale): Promise<Sale> {
     try {
       const existingSale = await this.get(sale.id);
+      await this.externalService.call(HttpMethods.GET, `${this.usersManagerApi}${sale.userId}`);
+      await Promise.all(sale.products.map(product => {
+        return this.externalService.call(HttpMethods.GET, `${this.productsManagerApi}${product.productId}`);
+      }));
       const updatedSale = {
         ...existingSale,
         ...sale,
