@@ -11,6 +11,7 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
@@ -31,6 +32,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sales.entrypoints=web"
+      - "traefik.frontend.rule=Path:/"
 
   sales-manager:
     image: 'docker.io/bitnami/node:14-debian-10'
