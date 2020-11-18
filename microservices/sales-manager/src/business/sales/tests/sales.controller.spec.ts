@@ -1,3 +1,4 @@
+import { CacheModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { saleMock } from '../mocks/sales.mocks';
 import { SalesServiceMock } from '../mocks/sales.service.mock';
@@ -9,6 +10,7 @@ describe('SalesController', () => {
 
 	beforeEach(async () => {
 		const app: TestingModule = await Test.createTestingModule({
+			imports: [CacheModule.register({})],
 			controllers: [SalesController],
 			providers: [SalesService],
 		})

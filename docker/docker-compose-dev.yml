@@ -26,6 +26,7 @@ services:
       - mysql
       - users-manager
       - products-manager
+      - redis
     volumes:
       - ../microservices/sales-manager:/app
   
@@ -38,6 +39,7 @@ services:
       - DB_PASSWORD=root
     links:
       - mysql
+      - redis
     volumes:
       - ../microservices/users-manager:/app
   
@@ -49,6 +51,7 @@ services:
       - SERVER_PORT=8084
     links:
       - mysql
+      - redis
     volumes:
       - ../microservices/products-manager:/app
   
@@ -69,3 +72,7 @@ services:
       - '8080:80'
     environment:
       PMA_HOST: mysql
+  
+  redis:
+    image: redis:alpine
+    container_name: redis

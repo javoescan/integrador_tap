@@ -21,11 +21,14 @@ export class SalesService {
   }
 
   async getAll(): Promise<Sale[]> {
-    return this.salesRepository.find();
+    return this.salesRepository.find({ relations: ['products'] });
   }
 
   async get(id: string): Promise<Sale> {
-    const sale = await this.salesRepository.findOne({ id });
+    const sale = await this.salesRepository.findOne({ 
+      where: { id },
+      relations: ['products']
+    });
     if (!sale) {
 			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
